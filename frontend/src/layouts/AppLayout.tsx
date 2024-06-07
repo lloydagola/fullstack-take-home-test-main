@@ -15,16 +15,17 @@ import IconButton from "@mui/material/IconButton";
 import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link, Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
-  children: ReactNode[] | ReactNode;
   window?: any;
+  children?: any;
 };
 
 export default function AppLayout({
-  children,
   window,
+  children,
 }: TAppLayoutProps): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -49,16 +50,26 @@ export default function AppLayout({
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Reading List"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        <Link to="/" style={{ textDecoration: "none", color: "#222" }}>
+          <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <HomeIcon /> : <LibraryBooksIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
-        ))}
+        </Link>
+        <Link to="/books" style={{ textDecoration: "none", color: "#222" }}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <LibraryBooksIcon />
+              </ListItemIcon>
+              <ListItemText primary="Reading List" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
@@ -67,7 +78,7 @@ export default function AppLayout({
   const container =
     window !== undefined ? () => window().document.body : undefined;
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} data-testid="app-layout">
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -96,13 +107,16 @@ export default function AppLayout({
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        aria-label="navigation"
+        role="navigation"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
+          data-testid="side-bar"
           container={container}
           variant="temporary"
           open={mobileOpen}
+          onClick={handleDrawerClose}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
@@ -119,6 +133,7 @@ export default function AppLayout({
           {drawer}
         </Drawer>
         <Drawer
+          data-testid="side-bar"
           variant="permanent"
           sx={{
             display: { xs: "none", sm: "block" },
@@ -141,6 +156,7 @@ export default function AppLayout({
         }}
       >
         <Toolbar />
+        <Outlet />
         {children}
       </Box>
     </Box>

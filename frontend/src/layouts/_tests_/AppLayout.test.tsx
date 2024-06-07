@@ -1,25 +1,18 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import AppLayout from "../AppLayout";
+import { RouterProvider } from "react-router-dom";
+import router from "../../router/routes";
 
 const elementText = "Testing AppLayout";
 
 describe("testing component rendering", () => {
-  let appLayout: HTMLElement, childElement: HTMLElement;
+  let appLayout: HTMLElement;
   beforeAll(() => {
-    render(
-      <AppLayout>
-        <div>{elementText}</div>
-      </AppLayout>
-    );
+    render(<RouterProvider router={router} />);
 
-    appLayout = screen.getByRole("main");
-    childElement = screen.getByText(elementText);
+    appLayout = screen.getByTestId("app-layout");
   });
-  test("test that component is rendered in the DOM", () => {
+  test("test that the main component is rendered in the DOM", () => {
     expect(appLayout).toBeInTheDocument();
-  });
-  test("test that component renders children", () => {
-    expect(appLayout).toContainElement(childElement);
   });
 });

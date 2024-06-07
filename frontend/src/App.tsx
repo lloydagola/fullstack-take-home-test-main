@@ -1,10 +1,11 @@
 import React from "react";
-import AppLayout from "./layouts/AppLayout";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import router from "./router/routes";
 
 export default function App() {
   return (
-    <AppLayout>
-      <div>App</div>
-    </AppLayout>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
   );
 }
