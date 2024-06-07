@@ -6,7 +6,7 @@ const elementText = "Testing AppLayout";
 
 describe("testing component rendering", () => {
   let appLayout: HTMLElement, childElement: HTMLElement;
-  beforeEach(() => {
+  beforeAll(() => {
     render(
       <AppLayout>
         <div>{elementText}</div>
