@@ -2,16 +2,20 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import AppLayout from "../AppLayout";
 
+const elementText = "Testing AppLayout";
+
 describe("testing component rendering", () => {
   test("test component rendering", () => {
     render(
       <AppLayout>
-        <div>Testing AppLayout</div>
+        <div>{elementText}</div>
       </AppLayout>
     );
 
-    let appLayout = screen.getByRole("main");
+    const appLayout = screen.getByRole("main");
+    const childElement = screen.getByText(elementText);
 
     expect(appLayout).toBeInTheDocument();
+    expect(appLayout).toContainElement(childElement);
   });
 });
