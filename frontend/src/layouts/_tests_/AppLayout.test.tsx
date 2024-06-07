@@ -5,28 +5,20 @@ import AppLayout from "../AppLayout";
 const elementText = "Testing AppLayout";
 
 describe("testing component rendering", () => {
-  test("test that component is rendered in the DOM", () => {
+  let appLayout: HTMLElement, childElement: HTMLElement;
+  beforeEach(() => {
     render(
       <AppLayout>
         <div>{elementText}</div>
       </AppLayout>
     );
-
-    const appLayout = screen.getByRole("main");
-    const childElement = screen.getByText(elementText);
-
+    appLayout = screen.getByRole("main");
+    childElement = screen.getByText(elementText);
+  });
+  test("test that component is rendered in the DOM", () => {
     expect(appLayout).toBeInTheDocument();
   });
   test("test that component renders children", () => {
-    render(
-      <AppLayout>
-        <div>{elementText}</div>
-      </AppLayout>
-    );
-
-    const appLayout = screen.getByRole("main");
-    const childElement = screen.getByText(elementText);
-
     expect(appLayout).toContainElement(childElement);
   });
 });
