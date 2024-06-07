@@ -1,5 +1,5 @@
 import React from "react";
 
-function Error404Page(): JSX.Element {
+function default Error404Page(): JSX.Element {
   return <>Error Page</>;
 }

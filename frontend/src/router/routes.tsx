@@ -1,8 +1,8 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../layouts/AppLayout";
-import { Home } from "../views/Home/Home";
-import { Books } from "../views/Books/Books";
+import Home from "../views/Home/Home";
+import Books from "../views/Books/Books";
 
 const router = createBrowserRouter([
   {
