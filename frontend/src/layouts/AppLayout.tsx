@@ -15,17 +15,14 @@ import IconButton from "@mui/material/IconButton";
 import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Link, Outlet } from "react-router-dom";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
-  children: ReactNode[] | ReactNode;
   window?: any;
 };
 
-export default function AppLayout({
-  children,
-  window,
-}: TAppLayoutProps): JSX.Element {
+export default function AppLayout({ window }: TAppLayoutProps): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -49,16 +46,26 @@ export default function AppLayout({
       <Toolbar />
       <Divider />
       <List>
-        {["Home", "Reading List"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        <Link to="/" style={{ textDecoration: "none", color: "#222" }}>
+          <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <HomeIcon /> : <LibraryBooksIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary="Home" />
             </ListItemButton>
           </ListItem>
-        ))}
+        </Link>
+        <Link to="/books" style={{ textDecoration: "none", color: "#222" }}>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <LibraryBooksIcon />
+              </ListItemIcon>
+              <ListItemText primary="Reading List" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
@@ -103,6 +110,7 @@ export default function AppLayout({
           container={container}
           variant="temporary"
           open={mobileOpen}
+          onClick={handleDrawerClose}
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
@@ -141,7 +149,7 @@ export default function AppLayout({
         }}
       >
         <Toolbar />
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );
