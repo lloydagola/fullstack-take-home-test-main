@@ -20,9 +20,13 @@ import { Link, Outlet } from "react-router-dom";
 const drawerWidth = 240;
 type TAppLayoutProps = {
   window?: any;
+  children?: any;
 };
 
-export default function AppLayout({ window }: TAppLayoutProps): JSX.Element {
+export default function AppLayout({
+  window,
+  children,
+}: TAppLayoutProps): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -103,7 +107,8 @@ export default function AppLayout({ window }: TAppLayoutProps): JSX.Element {
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        aria-label="navigation"
+        role="navigation"
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
@@ -150,6 +155,7 @@ export default function AppLayout({ window }: TAppLayoutProps): JSX.Element {
       >
         <Toolbar />
         <Outlet />
+        {children}
       </Box>
     </Box>
   );
