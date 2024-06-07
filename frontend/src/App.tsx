@@ -1,5 +1,10 @@
 import React from "react";
+import AppLayout from "./layouts/AppLayout";
 
 export default function App() {
-  return <div>App</div>;
+  return (
+    <AppLayout>
+      <div>App</div>
+    </AppLayout>
+  );
 }
