@@ -12,6 +12,7 @@ describe("testing component rendering", () => {
         <div>{elementText}</div>
       </AppLayout>
     );
+
     appLayout = screen.getByRole("main");
     childElement = screen.getByText(elementText);
   });
