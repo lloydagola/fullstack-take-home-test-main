@@ -1,4 +1,16 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import AppLayout from "../AppLayout";
+import App from "../../App";
 
-test.todo("test component rendering");
+describe("testing component rendering", () => {
+  let appLayout: HTMLElement;
+  beforeEach(() => {
+    appLayout = screen.getByRole("main");
+  });
+
+  test("test component rendering", () => {
+    render(<App />);
+
+    expect(appLayout).toBeInTheDocument();
+  });
+});
