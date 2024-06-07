@@ -1,6 +1,5 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom"; // Import jest-dom
 import AppLayout from "../AppLayout";
 
 describe("testing component rendering", () => {
@@ -11,7 +10,7 @@ describe("testing component rendering", () => {
       </AppLayout>
     );
 
-    let appLayout = screen.getByText("Testing AppLayout");
+    let appLayout = screen.getByRole("main");
 
     expect(appLayout).toBeInTheDocument();
   });
