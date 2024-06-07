@@ -78,7 +78,7 @@ export default function AppLayout({
   const container =
     window !== undefined ? () => window().document.body : undefined;
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} data-testid="app-layout">
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -112,6 +112,7 @@ export default function AppLayout({
       >
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
+          data-testid="side-bar"
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -132,6 +133,7 @@ export default function AppLayout({
           {drawer}
         </Drawer>
         <Drawer
+          data-testid="side-bar"
           variant="permanent"
           sx={{
             display: { xs: "none", sm: "block" },

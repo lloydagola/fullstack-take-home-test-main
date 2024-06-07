@@ -10,7 +10,7 @@ describe("testing component rendering", () => {
   beforeAll(() => {
     render(<RouterProvider router={router} />);
 
-    appLayout = screen.getByRole("main");
+    appLayout = screen.getByTestId("app-layout");
   });
   test("test that the main component is rendered in the DOM", () => {
     expect(appLayout).toBeInTheDocument();
