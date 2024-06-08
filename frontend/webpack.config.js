@@ -23,6 +23,12 @@ module.exports = {
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      src: path.resolve(__dirname, "src"),
+      components: path.resolve(__dirname, "src/components/"),
+      views: path.resolve(__dirname, "src/views/"),
+      layouts: path.resolve(__dirname, "src/layouts/"),
+    },
   },
   mode: "development",
   devServer: {
