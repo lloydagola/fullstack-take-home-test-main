@@ -1,19 +1,19 @@
 import React from "react";
 import { RouterProvider } from "react-router-dom";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import router from "./router/routes";
-
-const client = new ApolloClient({
-  uri: "https://api.spacex.land/graphql/",
-  cache: new InMemoryCache(),
-});
+import LoadingScreen from "views/LoadingScreen/LoadingScreen";
+import { BOOKS_QUERY } from "queries/books";
 
 export default function App() {
+  const { data, loading, error } = useQuery(BOOKS_QUERY);
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <pre>{error.message}</pre>;
+
   return (
     <React.StrictMode>
-      <ApolloProvider client={client}>
-        <RouterProvider router={router} />
-      </ApolloProvider>
+      <RouterProvider router={router} />
     </React.StrictMode>
   );
 }
