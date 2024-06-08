@@ -5,8 +5,10 @@ export const resolvers = {
     books: () => booksData,
     book(parent: unknown, args: { title: string; }, context: unknown, info: unknown){
       const { title } = args;
+
+      if(!title) return booksData;
       
-      const response = booksData.find((book) => book.title.toLocaleLowerCase() === title.toLocaleLowerCase());
+      const response = booksData.filter((book) => book.title.toLowerCase().includes(title.toLowerCase()));
 
       return response;
     }
