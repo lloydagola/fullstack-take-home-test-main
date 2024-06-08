@@ -34,7 +34,12 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export default function Book({ book }: { book: TBook }): JSX.Element {
+type TBookProps = {
+  book: TBook;
+  Button: any;
+};
+
+export default function Book({ book, Button }: TBookProps): JSX.Element {
   const { title, author, readingLevel, coverPhotoURL } = book;
 
   return (
@@ -49,9 +54,7 @@ export default function Book({ book }: { book: TBook }): JSX.Element {
           <span>Reading Level:</span>
           {readingLevel}
         </Typography>
-        <Button variant="contained" fullWidth>
-          Add To Reading List
-        </Button>
+        {Button}
       </Box>
     </StyledBookContainer>
   );

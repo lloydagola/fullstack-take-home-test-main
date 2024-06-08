@@ -5,7 +5,7 @@ import { AppContext } from "contexts/AppContextProvider";
 import { TBook } from "utils/types";
 import Button from "@mui/material/Button";
 
-export default function Books(): JSX.Element {
+export default function ReadingList(): JSX.Element {
   const value = useContext(AppContext);
   return (
     <Grid
@@ -15,16 +15,17 @@ export default function Books(): JSX.Element {
       justifyContent="center"
       gridTemplateColumns="repeat(auto-fill, 300px)"
     >
-      {value?.books.map((book: TBook, index: number) => (
+      {value?.readingList.map((book: TBook, index: number) => (
         <Book
           book={book}
           key={index}
           Button={
             <Button
               variant="contained"
-              onClick={() => value.addToReadingList(book)}
+              color="error"
+              onClick={() => value.removeFromReadingList(book)}
             >
-              Add to List
+              Remove From List
             </Button>
           }
         />
