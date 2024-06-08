@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { TBook } from "utils/types";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "4px 12px 12px",
@@ -33,23 +34,13 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-type TBookProps = {
-  title: string;
-  author: string;
-  readingLevel: string;
-  thumbnailUrl: string;
-};
+export default function Book({ book }: { book: TBook }): JSX.Element {
+  const { title, author, readingLevel, coverPhotoURL } = book;
 
-export default function Book({
-  title,
-  author,
-  readingLevel,
-  thumbnailUrl,
-}: TBookProps): JSX.Element {
   return (
     <StyledBookContainer>
       <Box>
-        <img loading="lazy" src={thumbnailUrl} alt="book cover image" />
+        <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
       </Box>
       <Box p={1}>
         <Typography variant="h4">{title}</Typography>

@@ -1,25 +1,20 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
 import Book from "../Book";
+import { TBook } from "utils/types";
 
 describe("Test rendering of book component", () => {
-  let title: string, author: string, readingLevel: string, thumbnailUrl: string;
+  let book: TBook;
 
   beforeEach(() => {
-    title = "Curious Princess and the Enchanted Garden";
-    author = "Reese Smith";
-    readingLevel = "H";
-    thumbnailUrl = "assets/image2.webp";
+    book = {
+      title: "Curious Princess and the Enchanted Garden",
+      author: "Reese Smith",
+      readingLevel: "H",
+      coverPhotoURL: "assets/image2.webp",
+    };
 
-    render(
-      <Book
-        title={title}
-        author={author}
-        readingLevel={readingLevel}
-        thumbnailUrl={thumbnailUrl}
-        data-testid="card"
-      />
-    );
+    render(<Book book={book} />);
   });
 
   it("should display the book cover image", () => {
@@ -29,19 +24,19 @@ describe("Test rendering of book component", () => {
   });
 
   it("should display the book title", () => {
-    const titleText = screen.getByText(title);
+    const titleText = screen.getByText(book.title);
 
     expect(titleText).toBeInTheDocument();
   });
 
   it("should display the book author", () => {
-    const authorText = screen.getByText(author);
+    const authorText = screen.getByText(book.author);
 
     expect(authorText).toBeInTheDocument();
   });
 
   it("should display the book reading level", () => {
-    const readingLevelText = screen.getByText(readingLevel);
+    const readingLevelText = screen.getByText(book.readingLevel);
 
     expect(readingLevelText).toBeInTheDocument();
   });
