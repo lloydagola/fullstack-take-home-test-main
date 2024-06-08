@@ -1,5 +1,5 @@
 import React from "react";
 
-export function Home(): JSX.Element {
+export default function Home(): JSX.Element {
   return <div>home</div>;
 }
