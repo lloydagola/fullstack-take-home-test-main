@@ -16,6 +16,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, Outlet } from "react-router-dom";
+import SearchBar from "components/SearchBar/SearchBar";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
@@ -102,6 +103,8 @@ export default function AppLayout({
           <Typography variant="h6" noWrap component="div">
             Ello
           </Typography>
+          <Box flex={1} />
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <Box
