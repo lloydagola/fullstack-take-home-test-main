@@ -28,6 +28,8 @@ module.exports = {
       components: path.resolve(__dirname, "src/components/"),
       views: path.resolve(__dirname, "src/views/"),
       layouts: path.resolve(__dirname, "src/layouts/"),
+      utils: path.resolve(__dirname, "src/utils/"),
+      queries: path.resolve(__dirname, "src/queries/"),
       _mocks_: path.resolve(__dirname, "src/_mocks_/"),
     },
   },
