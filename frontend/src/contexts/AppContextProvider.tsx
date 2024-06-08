@@ -1,6 +1,20 @@
-import React, { ReactNode, createContext } from "react";
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
+import { TBook } from "utils/types";
 
-export const AppContext = createContext(null);
+type TContext = {
+  books: TBook[];
+  readingList: TBook[];
+  addToReadingList: (Book: TBook) => void;
+  removeFromReadingList: (Book: TBook) => void;
+};
+
+export const AppContext = createContext<TContext | null>(null);
 export default function AppContextProvider({
   children,
   value,
@@ -8,5 +22,27 @@ export default function AppContextProvider({
   children: ReactNode[] | ReactNode;
   value: any;
 }) {
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  const [readingList, setReadingList] = useState<TBook[]>([]);
+
+  function addToReadingList(Book: TBook): void {
+    setReadingList((currentState): TBook[] => {
+      return [...currentState, Book];
+    });
+  }
+
+  function removeFromReadingList(Book: TBook): void {
+    const newReadingList = readingList.filter((currentBook: TBook) => {
+      return currentBook.title !== Book.title;
+    });
+
+    setReadingList(newReadingList);
+  }
+
+  return (
+    <AppContext.Provider
+      value={{ ...value, readingList, addToReadingList, removeFromReadingList }}
+    >
+      {children}
+    </AppContext.Provider>
+  );
 }
