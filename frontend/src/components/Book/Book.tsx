@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import { TBook } from "utils/types";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
-  padding: "4px 12px 12px",
+  padding: "12px",
   boxShadow:
     "0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
   borderRadius: "16px",
@@ -39,7 +39,7 @@ export default function Book({ book }: { book: TBook }): JSX.Element {
 
   return (
     <StyledBookContainer>
-      <Box>
+      <Box width={276} height={276}>
         <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
       </Box>
       <Box p={1}>

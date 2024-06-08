@@ -14,7 +14,7 @@ export default function Books(): JSX.Element {
       gridTemplateColumns="repeat(auto-fill, 300px)"
     >
       {booksData.map((book: TBook, index: number) => (
-        <Book book={book} />
+        <Book key={index} book={book} />
       ))}
     </Grid>
   );
