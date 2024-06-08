@@ -1,10 +1,4 @@
-import React, {
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  createContext,
-  useState,
-} from "react";
+import React, { ReactNode, createContext, useState } from "react";
 import { TBook } from "utils/types";
 
 type TContext = {
@@ -25,6 +19,11 @@ export default function AppContextProvider({
   const [readingList, setReadingList] = useState<TBook[]>([]);
 
   function addToReadingList(Book: TBook): void {
+    const bookIsInList = readingList.find(
+      (currentBook) => currentBook.title === Book.title
+    );
+
+    if (bookIsInList) return;
     setReadingList((currentState): TBook[] => {
       return [...currentState, Book];
     });
