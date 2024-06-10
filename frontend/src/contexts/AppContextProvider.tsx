@@ -1,12 +1,5 @@
 import React, { ReactNode, createContext, useState } from "react";
-import { TBook } from "utils/types";
-
-type TContext = {
-  books: TBook[];
-  readingList: TBook[];
-  addToReadingList: (Book: TBook) => void;
-  removeFromReadingList: (Book: TBook) => void;
-};
+import { TBook, TContext } from "types/types";
 
 export const AppContext = createContext<TContext | null>(null);
 export default function AppContextProvider({
