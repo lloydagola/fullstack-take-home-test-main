@@ -15,20 +15,34 @@ export default function Books(): JSX.Element {
       justifyContent="center"
       gridTemplateColumns="repeat(auto-fill, 300px)"
     >
-      {value?.books?.map((book: TBook, index: number) => (
-        <Book
-          book={book}
-          key={index}
-          Button={
-            <Button
-              variant="contained"
-              onClick={() => value.addToReadingList(book)}
-            >
-              Add to List
-            </Button>
-          }
-        />
-      ))}
+      {value?.books?.map((book: TBook, index: number): JSX.Element => {
+        const inReadingList = value.readingList.includes(book);
+
+        return (
+          <Book
+            book={book}
+            key={index}
+            Button={
+              inReadingList ? (
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => value.removeFromReadingList(book)}
+                >
+                  Remove From List
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() => value.addToReadingList(book)}
+                >
+                  Add to List
+                </Button>
+              )
+            }
+          />
+        );
+      })}
     </Grid>
   );
 }
