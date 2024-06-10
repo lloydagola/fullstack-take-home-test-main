@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Grid from "@mui/material/Grid";
 import Book from "components/Book/Book";
 import { AppContext } from "contexts/AppContextProvider";
-import { TBook } from "utils/types";
+import { TBook } from "types/types";
 import Button from "@mui/material/Button";
 
 export default function Books(): JSX.Element {
@@ -15,7 +15,7 @@ export default function Books(): JSX.Element {
       justifyContent="center"
       gridTemplateColumns="repeat(auto-fill, 300px)"
     >
-      {value?.books.map((book: TBook, index: number) => (
+      {value?.books?.map((book: TBook, index: number) => (
         <Book
           book={book}
           key={index}
