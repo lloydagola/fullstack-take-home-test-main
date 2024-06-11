@@ -18,7 +18,6 @@ import { SEARCH_BOOKS_QUERY } from "queries/books";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import { useClickOutside } from "../../hooks/useClickOutside";
-import { useClickOutside } from "../../hooks/useClickOutside";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,9 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar(): JSX.Element {
-  const [searchTerm, setSearchTerm] = useState(
-    "Curious Princess and the Enchanted Garden"
-  );
+  const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState<TBook[]>([]);
   const appData = useContext(AppContext);
@@ -74,10 +71,6 @@ export default function SearchBar(): JSX.Element {
     variables: { title: searchTerm },
   });
 
-  const listRef = useRef(null);
-  useClickOutside(listRef, (): void => {
-    setIsOpen(false);
-  });
   const listRef = useRef(null);
   useClickOutside(listRef, (): void => {
     setIsOpen(false);
@@ -110,7 +103,6 @@ export default function SearchBar(): JSX.Element {
 
   return (
     <Search ref={listRef}>
-    <Search ref={listRef}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
@@ -121,7 +113,6 @@ export default function SearchBar(): JSX.Element {
         value={searchTerm}
         inputProps={{ "aria-label": "search" }}
         onChange={handleSearch}
-        onClick={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
       />
       <Suspense fallback={<Typography>Searching...</Typography>}>

@@ -21,8 +21,9 @@ export default function App(): JSX.Element {
   return (
     <React.StrictMode>
       <AppContextProvider books={BookData}>
-      <AppContextProvider books={BookData}>
-        <RouterProvider router={router} />
+        <AppContextProvider books={BookData}>
+          <RouterProvider router={router} />
+        </AppContextProvider>
       </AppContextProvider>
     </React.StrictMode>
   );
