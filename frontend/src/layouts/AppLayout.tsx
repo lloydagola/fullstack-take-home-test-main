@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,17 +16,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, Outlet } from "react-router-dom";
+import SearchBar from "components/SearchBar/SearchBar";
+import { AppContext } from "contexts/AppContextProvider";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
-  window?: any;
-  children?: any;
+  children: JSX.Element[] | JSX.Element;
 };
 
-export default function AppLayout({
-  window,
-  children,
-}: TAppLayoutProps): JSX.Element {
+export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -44,6 +42,10 @@ export default function AppLayout({
       setMobileOpen(!mobileOpen);
     }
   };
+
+  const appData = useContext(AppContext);
+
+  const readingListCount = appData?.readingList.length || 0;
 
   const drawer = (
     <div>
@@ -67,6 +69,18 @@ export default function AppLayout({
                 <LibraryBooksIcon />
               </ListItemIcon>
               <ListItemText primary="Reading List" />
+              {readingListCount > 0 ? (
+                <Typography
+                  width={24}
+                  height={24}
+                  borderRadius="50%"
+                  sx={{ backgroundColor: "#f00" }}
+                  textAlign="center"
+                  color="#fff"
+                >
+                  {readingListCount}
+                </Typography>
+              ) : null}
             </ListItemButton>
           </ListItem>
         </Link>
@@ -74,9 +88,6 @@ export default function AppLayout({
     </div>
   );
 
-  // Remove this const when copying and pasting into your project.
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
   return (
     <Box sx={{ display: "flex" }} data-testid="app-layout">
       <CssBaseline />
@@ -102,6 +113,8 @@ export default function AppLayout({
           <Typography variant="h6" noWrap component="div">
             Ello
           </Typography>
+          <Box flex={1} />
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <Box
@@ -113,7 +126,6 @@ export default function AppLayout({
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           data-testid="side-bar"
-          container={container}
           variant="temporary"
           open={mobileOpen}
           onClick={handleDrawerClose}
