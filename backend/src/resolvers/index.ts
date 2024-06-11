@@ -1,9 +1,11 @@
+import { GraphQLResolveInfo } from 'graphql/type';
 import { booksData } from '../data/books';
+import { TBook } from '../types/types';
 
 export const resolvers = {
   Query: {
-    books: () => booksData,
-    book(parent: unknown, args: { title: string; }, context: unknown, info: unknown){
+   
+    books(parent: TBook[], args: { title: string; }, context: unknown, info: GraphQLResolveInfo){
       const { title } = args;
 
       if(!title) return booksData;

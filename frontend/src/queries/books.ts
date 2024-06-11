@@ -10,3 +10,14 @@ export const BOOKS_QUERY = gql`
     }
   }
 `;
+export const SEARCH_BOOKS_QUERY = gql`
+  query GetBookByTitle($title: String!) {
+    books(title: $title) {
+      title
+      author
+      coverPhotoURL
+      readingLevel
+    }
+  }
+`;
+
