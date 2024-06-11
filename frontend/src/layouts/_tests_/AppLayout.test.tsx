@@ -37,7 +37,7 @@ const mocks = [
 ];
 
 describe("testing component rendering", () => {
-  test("test that the main component is rendered in the DOM", () => {
+  beforeEach(() => {
     render(
       <AppContextProvider books={booksData}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -45,7 +45,14 @@ describe("testing component rendering", () => {
         </MockedProvider>
       </AppContextProvider>
     );
+  });
+  it("test that the main component is rendered in the DOM", () => {
     const appLayout = screen.queryByTestId("app-layout") as HTMLElement;
     expect(appLayout).toBeInTheDocument();
+  });
+
+  it("test that the correct book is rendered", () => {
+    const book = screen.getByText(title);
+    expect(book).toBeInTheDocument();
   });
 });
