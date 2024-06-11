@@ -61,26 +61,3 @@ describe("Test rendering of the search component", () => {
     expect(searchBar).toBeInTheDocument();
   });
 });
-/*
-describe("Test search functionality", () => {
-  beforeEach(() => {
-    render(
-      <AppContextProvider books={booksData}>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <SearchBar />
-        </MockedProvider>
-      </AppContextProvider>
-    );
-  });
-
-  it("should display search results components", async () => {
-    const candidate = screen.getByLabelText("search");
-    await userEvent.click(candidate);
-    await userEvent.type(candidate, title);
-
-    // Assert that the search results are displayed
-    const searchBar = screen.getByLabelText("search-results");
-    expect(searchBar).toBeInTheDocument();
-  });
-});
-*/
