@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import router from "./router/routes";
-import LoadingScreen from "views/LoadingScreen/LoadingScreen";
 import { BOOKS_QUERY } from "queries/books";
-import AppContextProvider from "./contexts/AppContextProvider";
+import { TBook } from "types/types";
+import AppContextProvider from "contexts/AppContextProvider";
+import LoadingScreen from "views/LoadingScreen/LoadingScreen";
 
 export default function App(): JSX.Element {
   const { data, loading, error } = useQuery(BOOKS_QUERY);
-  const [BookData, setBookData] = useState([]);
+  const [BookData, setBookData] = useState<TBook[]>([]);
 
   useEffect(() => {
     setBookData(data?.books);
@@ -19,7 +20,7 @@ export default function App(): JSX.Element {
 
   return (
     <React.StrictMode>
-      <AppContextProvider books={BookData}>
+      <AppContextProvider books={data.books}>
         <RouterProvider router={router} />
       </AppContextProvider>
     </React.StrictMode>

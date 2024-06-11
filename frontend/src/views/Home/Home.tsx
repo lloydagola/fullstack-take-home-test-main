@@ -12,6 +12,7 @@ export default function Books(): JSX.Element {
     <Grid
       container
       gap={2}
+      aria-label="book-list"
       display="grid"
       justifyContent="center"
       gridTemplateColumns="repeat(auto-fill, 300px)"

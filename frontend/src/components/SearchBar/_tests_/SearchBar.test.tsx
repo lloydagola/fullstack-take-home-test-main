@@ -1,13 +1,15 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import { RouterProvider } from "react-router-dom";
-import router from "../../router/routes";
+import { screen, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+import { SEARCH_BOOKS_QUERY } from "queries/books";
 import { booksData } from "_mocks_/books";
 import AppContextProvider from "contexts/AppContextProvider";
-import { MockedProvider } from "@apollo/client/testing";
-import { SEARCH_BOOKS_QUERY } from "queries/books";
+import { RouterProvider } from "react-router-dom";
+import router from "router/routes";
 
 const title = "Curious Princess and the Enchanted Garden";
+
 const mocks = [
   {
     request: {
@@ -18,7 +20,7 @@ const mocks = [
       data: {
         books: [
           {
-            title: title,
+            title,
             author: "Reese Smith",
             coverPhotoURL: "assets/image2.webp",
             readingLevel: "H",
@@ -35,7 +37,7 @@ const mocks = [
   },
 ];
 
-describe("testing component rendering", () => {
+describe("Test rendering of the search component", () => {
   beforeEach(() => {
     render(
       <AppContextProvider books={booksData}>
@@ -45,8 +47,15 @@ describe("testing component rendering", () => {
       </AppContextProvider>
     );
   });
-  it("test that the main component is rendered in the DOM", () => {
-    const appLayout = screen.queryByTestId("app-layout") as HTMLElement;
-    expect(appLayout).toBeInTheDocument();
+
+  it("should display the search bar", () => {
+    const searchBar = screen.getByLabelText("search");
+
+    expect(searchBar).toBeInTheDocument();
+  });
+
+  it("test that the correct book is rendered", () => {
+    const book = screen.getByText(title);
+    expect(book).toBeInTheDocument();
   });
 });

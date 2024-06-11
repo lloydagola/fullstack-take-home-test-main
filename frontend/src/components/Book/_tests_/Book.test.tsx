@@ -1,10 +1,13 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
+import Button from "@mui/material/Button";
 import Book from "../Book";
-import { TBook } from "utils/types";
+import { TBook } from "types/types";
 
 describe("Test rendering of book component", () => {
-  let book: TBook;
+  let book: TBook, inReadingList: boolean;
+  const mockRemoveFromReadingList = jest.fn(),
+    mockAddToReadingList = jest.fn();
 
   beforeEach(() => {
     book = {
@@ -13,8 +16,31 @@ describe("Test rendering of book component", () => {
       readingLevel: "H",
       coverPhotoURL: "assets/image2.webp",
     };
+    inReadingList = false;
 
-    render(<Book book={book} />);
+    render(
+      <Book
+        book={book}
+        Button={
+          inReadingList ? (
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => mockRemoveFromReadingList(book)}
+            >
+              Remove From List
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              onClick={() => mockAddToReadingList(book)}
+            >
+              Add to List
+            </Button>
+          )
+        }
+      />
+    );
   });
 
   it("should display the book cover image", () => {
