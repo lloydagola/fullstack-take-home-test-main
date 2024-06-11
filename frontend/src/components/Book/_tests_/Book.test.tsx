@@ -1,7 +1,7 @@
 import React from "react";
 import { screen, render } from "@testing-library/react";
 import Book from "../Book";
-import { TBook } from "utils/types";
+import { TBook } from "types/types";
 
 describe("Test rendering of book component", () => {
   let book: TBook;
