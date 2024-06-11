@@ -14,7 +14,6 @@ const mocks = [
     request: {
       query: SEARCH_BOOKS_QUERY,
       variables: { title },
-      error: { message: "Sum ting wong" },
     },
     result: {
       data: {
