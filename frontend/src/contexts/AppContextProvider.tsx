@@ -1,20 +1,13 @@
 import React, { ReactNode, createContext, useState } from "react";
-import { TBook } from "utils/types";
-
-type TContext = {
-  books: TBook[];
-  readingList: TBook[];
-  addToReadingList: (Book: TBook) => void;
-  removeFromReadingList: (Book: TBook) => void;
-};
+import { TBook, TContext } from "types/types";
 
 export const AppContext = createContext<TContext | null>(null);
 export default function AppContextProvider({
   children,
-  value,
+  books,
 }: {
   children: ReactNode[] | ReactNode;
-  value: any;
+  books: TBook[];
 }) {
   const [readingList, setReadingList] = useState<TBook[]>([]);
 
@@ -39,7 +32,7 @@ export default function AppContextProvider({
 
   return (
     <AppContext.Provider
-      value={{ ...value, readingList, addToReadingList, removeFromReadingList }}
+      value={{ books, readingList, addToReadingList, removeFromReadingList }}
     >
       {children}
     </AppContext.Provider>

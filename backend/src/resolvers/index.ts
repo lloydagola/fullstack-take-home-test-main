@@ -2,8 +2,8 @@ import { booksData } from '../data/books';
 
 export const resolvers = {
   Query: {
-    books: () => booksData,
-    book(parent: unknown, args: { title: string; }, context: unknown, info: unknown){
+   
+    books(parent: unknown, args: { title: string; }, context: unknown, info: unknown){
       const { title } = args;
 
       if(!title) return booksData;

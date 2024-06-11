@@ -1,9 +1,9 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { TBook } from "utils/types";
+import { TBook } from "types/types";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "12px",
@@ -36,7 +36,7 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
 
 type TBookProps = {
   book: TBook;
-  Button: any;
+  Button: ReactNode;
 };
 
 export default function Book({ book, Button }: TBookProps): JSX.Element {

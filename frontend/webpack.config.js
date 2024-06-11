@@ -29,6 +29,7 @@ module.exports = {
       views: path.resolve(__dirname, "src/views/"),
       layouts: path.resolve(__dirname, "src/layouts/"),
       contexts: path.resolve(__dirname, "src/contexts/"),
+      hooks: path.resolve(__dirname, "src/hooks/"),
       utils: path.resolve(__dirname, "src/utils/"),
       queries: path.resolve(__dirname, "src/queries/"),
       _mocks_: path.resolve(__dirname, "src/_mocks_/"),
