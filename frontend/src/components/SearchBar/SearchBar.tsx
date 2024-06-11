@@ -1,10 +1,4 @@
-import React, {
-  ChangeEvent,
-  ChangeEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useContext, useRef, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -16,7 +10,7 @@ import useDebounce from "hooks/useDebounce";
 import { SEARCH_BOOKS_QUERY } from "queries/books";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
-import LoadingScreen from "views/LoadingScreen/LoadingScreen";
+import { useClickOutside } from "../../hooks/useClickOutside";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,19 +57,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchBar(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [filteredBooks, setFilteredBooks] = useState<TBook[]>([]);
   const appData = useContext(AppContext);
-
-  /*
-   const searchTerm = "Curious Princess and the Enchanted Garden";
-   */
   const { loading, error, data } = useQuery(SEARCH_BOOKS_QUERY, {
     variables: { title: searchTerm },
   });
 
-  useEffect(() => {
-    console.log("search term changed...", searchTerm);
-  }, [searchTerm]);
+  const listRef = useRef(null);
+  useClickOutside(listRef, (): void => {
+    setIsOpen(false);
+  });
 
   // DeBounce Function
   useDebounce(
@@ -83,8 +75,6 @@ export default function SearchBar(): JSX.Element {
       if (!data || !data.books) setFilteredBooks([]);
       setFilteredBooks((currentState: TBook[]) => {
         if (!data || !data.books) return [];
-
-        console.log(searchTerm);
 
         return data?.books?.filter((book: TBook) =>
           book.title
@@ -104,32 +94,26 @@ export default function SearchBar(): JSX.Element {
     setSearchTerm(value);
   }
 
-  function handleBlur() {
-    console.log("blurry...");
-    //setFilteredBooks([]);
-  }
-  function handleFocus() {
-    console.log("hocus focus...");
-  }
-
   return (
-    <Search>
+    <Search ref={listRef}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
+        type="search"
         value={searchTerm}
         inputProps={{ "aria-label": "search" }}
         onChange={handleSearch}
-        onBlur={handleBlur}
-        onFocus={handleFocus}
+        onClick={() => setIsOpen(true)}
       />
       <Box
         position="absolute"
         flexDirection="column"
         display={`${
-          searchTerm.trim() && filteredBooks.length > 0 ? "flex" : "none"
+          isOpen && searchTerm.trim() && filteredBooks.length > 0
+            ? "flex"
+            : "none"
         }`}
         p={1}
         overflow="scroll"
@@ -152,37 +136,59 @@ export default function SearchBar(): JSX.Element {
           <Typography>an error ocurred</Typography>
         ) : (
           searchTerm.trim() &&
-          filteredBooks.map((book, index) => (
-            <Box
-              p={1}
-              borderBottom="1px solid #999"
-              key={index}
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-            >
-              <img
-                loading="lazy"
-                src={book.coverPhotoURL}
-                width="60px"
-                style={{ margin: "12px" }}
-              />
-              <Box display="flex" flex="1" flexDirection="column">
-                <Typography>{book.title}</Typography>
-                <Button
-                  sx={{
-                    margin: "4px 0",
-                    borderRadius: "16px",
-                    fontWeight: 600,
-                    width: "130px",
-                  }}
-                  variant="contained"
-                >
-                  Add to List
-                </Button>
+          filteredBooks.map((book, index): JSX.Element => {
+            const inReadingList = appData?.readingList?.some(
+              (_book: TBook) => _book.title === book.title
+            );
+            return (
+              <Box
+                p={1}
+                borderBottom="1px solid #999"
+                key={index}
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+              >
+                <img
+                  loading="lazy"
+                  src={book.coverPhotoURL}
+                  width="60px"
+                  style={{ margin: "12px" }}
+                />
+                <Box display="flex" flex="1" flexDirection="column">
+                  <Typography>{book.title}</Typography>
+                  {inReadingList ? (
+                    <Button
+                      color="error"
+                      sx={{
+                        margin: "4px 0",
+                        borderRadius: "16px",
+                        fontWeight: 600,
+                        width: "180px",
+                      }}
+                      variant="contained"
+                      onClick={() => appData?.removeFromReadingList(book)}
+                    >
+                      Remove From List
+                    </Button>
+                  ) : (
+                    <Button
+                      sx={{
+                        margin: "4px 0",
+                        borderRadius: "16px",
+                        fontWeight: 600,
+                        width: "130px",
+                      }}
+                      variant="contained"
+                      onClick={() => appData?.addToReadingList(book)}
+                    >
+                      Add to List
+                    </Button>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          ))
+            );
+          })
         )}
       </Box>
     </Search>
