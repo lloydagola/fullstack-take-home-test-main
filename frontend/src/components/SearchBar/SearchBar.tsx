@@ -102,6 +102,7 @@ export default function SearchBar(): JSX.Element {
 
   return (
     <Search ref={listRef}>
+    <Search ref={listRef}>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
@@ -112,6 +113,7 @@ export default function SearchBar(): JSX.Element {
         value={searchTerm}
         inputProps={{ "aria-label": "search" }}
         onChange={handleSearch}
+        onClick={() => setIsOpen(true)}
         onClick={() => setIsOpen(true)}
       />
       <Suspense fallback={<Typography>Searching...</Typography>}>
