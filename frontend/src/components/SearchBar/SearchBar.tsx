@@ -1,4 +1,11 @@
-import React, { ChangeEvent, useContext, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Suspense,
+  useContext,
+  useDeferredValue,
+  useRef,
+  useState,
+} from "react";
 import { useQuery } from "@apollo/client";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -47,19 +54,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
+      width: "100%",
     },
   },
 }));
 
 export default function SearchBar(): JSX.Element {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(
+    "Curious Princess and the Enchanted Garden"
+  );
+  const [isOpen, setIsOpen] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState<TBook[]>([]);
   const appData = useContext(AppContext);
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  const isStale = searchTerm !== deferredSearchTerm;
+
   const { loading, error, data } = useQuery(SEARCH_BOOKS_QUERY, {
     variables: { title: searchTerm },
   });
@@ -85,7 +94,7 @@ export default function SearchBar(): JSX.Element {
       });
     },
     [data, searchTerm],
-    800
+    1000
   );
 
   function handleSearch({
@@ -100,97 +109,94 @@ export default function SearchBar(): JSX.Element {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search…"
+        placeholder="Type to start searching"
+        fullWidth
         type="search"
         value={searchTerm}
         inputProps={{ "aria-label": "search" }}
         onChange={handleSearch}
         onClick={() => setIsOpen(true)}
       />
-      <Box
-        position="absolute"
-        flexDirection="column"
-        display={`${
-          isOpen && searchTerm.trim() && filteredBooks.length > 0
-            ? "flex"
-            : "none"
-        }`}
-        p={1}
-        overflow="scroll"
-        height="600px"
-        width="100%"
-        boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
-        sx={{ backgroundColor: "#fff" }}
-      >
-        {loading ? (
-          <Box
-            width="100%"
-            height="100%"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography>Loading...</Typography>
-          </Box>
-        ) : error ? (
-          <Typography>an error ocurred</Typography>
-        ) : (
-          searchTerm.trim() &&
-          filteredBooks.map((book, index): JSX.Element => {
-            const inReadingList = appData?.readingList?.some(
-              (_book: TBook) => _book.title === book.title
-            );
-            return (
-              <Box
-                p={1}
-                borderBottom="1px solid #999"
-                key={index}
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-              >
-                <img
-                  loading="lazy"
-                  src={book.coverPhotoURL}
-                  width="60px"
-                  style={{ margin: "12px" }}
-                />
-                <Box display="flex" flex="1" flexDirection="column">
-                  <Typography>{book.title}</Typography>
-                  {inReadingList ? (
-                    <Button
-                      color="error"
-                      sx={{
-                        margin: "4px 0",
-                        borderRadius: "16px",
-                        fontWeight: 600,
-                        width: "180px",
-                      }}
-                      variant="contained"
-                      onClick={() => appData?.removeFromReadingList(book)}
-                    >
-                      Remove From List
-                    </Button>
-                  ) : (
-                    <Button
-                      sx={{
-                        margin: "4px 0",
-                        borderRadius: "16px",
-                        fontWeight: 600,
-                        width: "130px",
-                      }}
-                      variant="contained"
-                      onClick={() => appData?.addToReadingList(book)}
-                    >
-                      Add to List
-                    </Button>
-                  )}
+      <Suspense fallback={<Typography>Searching...</Typography>}>
+        <Box
+          position="absolute"
+          flexDirection="column"
+          aria-label="search-results"
+          display={`${
+            isOpen && searchTerm.trim() && filteredBooks.length > 0
+              ? "flex"
+              : "none"
+          }`}
+          p={1}
+          overflow="scroll"
+          height="600px"
+          width="100%"
+          boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
+          sx={{ backgroundColor: "#fff" }}
+        >
+          {error ? (
+            <Box>
+              <Typography>an error ocurred, {String(error)}</Typography>
+            </Box>
+          ) : (
+            searchTerm.trim() &&
+            filteredBooks.map((book, index): JSX.Element => {
+              const inReadingList = appData?.readingList?.some(
+                (_book: TBook) => _book.title === book.title
+              );
+              return (
+                <Box
+                  p={1}
+                  borderBottom="1px solid #999"
+                  key={index}
+                  display="flex"
+                  flexDirection="row"
+                  alignItems="center"
+                  sx={{ opacity: isStale || loading ? "0.5" : 1 }}
+                >
+                  <img
+                    loading="lazy"
+                    src={book.coverPhotoURL}
+                    width="60px"
+                    style={{ margin: "12px" }}
+                  />
+                  <Box display="flex" flex="1" flexDirection="column">
+                    <Typography>{book.title}</Typography>
+                    {inReadingList ? (
+                      <Button
+                        color="error"
+                        sx={{
+                          margin: "4px 0",
+                          borderRadius: "16px",
+                          fontWeight: 600,
+                          width: "180px",
+                        }}
+                        variant="contained"
+                        onClick={() => appData?.removeFromReadingList(book)}
+                      >
+                        Remove From List
+                      </Button>
+                    ) : (
+                      <Button
+                        sx={{
+                          margin: "4px 0",
+                          borderRadius: "16px",
+                          fontWeight: 600,
+                          width: "130px",
+                        }}
+                        variant="contained"
+                        onClick={() => appData?.addToReadingList(book)}
+                      >
+                        Add to List
+                      </Button>
+                    )}
+                  </Box>
                 </Box>
-              </Box>
-            );
-          })
-        )}
-      </Box>
+              );
+            })
+          )}
+        </Box>
+      </Suspense>
     </Search>
   );
 }
