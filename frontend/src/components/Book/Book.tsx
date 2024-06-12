@@ -1,9 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, memo } from "react";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { TBook } from "types/types";
+import BookErrorBoundary from "errorBoundaries/BookError/BookError";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "12px",
@@ -39,23 +40,27 @@ type TBookProps = {
   Button: ReactNode;
 };
 
-export default function Book({ book, Button }: TBookProps): JSX.Element {
+function Book({ book, Button }: TBookProps): JSX.Element {
   const { title, author, readingLevel, coverPhotoURL } = book;
 
   return (
     <StyledBookContainer>
-      <Box width={276} height={276}>
-        <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
-      </Box>
-      <Box p={1}>
-        <Typography variant="h4">{title}</Typography>
-        <Typography>{author}</Typography>
-        <Typography>
-          <span>Reading Level:</span>
-          {readingLevel}
-        </Typography>
-        {Button}
-      </Box>
+      <BookErrorBoundary>
+        <Box width={276} height={276}>
+          <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
+        </Box>
+        <Box p={1}>
+          <Typography variant="h4">{title}</Typography>
+          <Typography>{author}</Typography>
+          <Typography>
+            <span>Reading Level:</span>
+            {readingLevel}
+          </Typography>
+          {Button}
+        </Box>
+      </BookErrorBoundary>
     </StyledBookContainer>
   );
 }
+
+export default memo(Book);

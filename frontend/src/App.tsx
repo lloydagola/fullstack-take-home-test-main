@@ -20,7 +20,7 @@ export default function App(): JSX.Element {
 
   return (
     <React.StrictMode>
-      <AppContextProvider books={data.books}>
+      <AppContextProvider books={BookData}>
         <RouterProvider router={router} />
       </AppContextProvider>
     </React.StrictMode>

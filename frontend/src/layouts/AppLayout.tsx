@@ -21,7 +21,7 @@ import { AppContext } from "contexts/AppContextProvider";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
-  children: JSX.Element[] | JSX.Element;
+  children?: JSX.Element[] | JSX.Element;
 };
 
 export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
