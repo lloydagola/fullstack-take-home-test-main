@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, memo } from "react";
 import styled from "@emotion/styled";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -39,7 +39,7 @@ type TBookProps = {
   Button: ReactNode;
 };
 
-export default function Book({ book, Button }: TBookProps): JSX.Element {
+function Book({ book, Button }: TBookProps): JSX.Element {
   const { title, author, readingLevel, coverPhotoURL } = book;
 
   return (
@@ -59,3 +59,5 @@ export default function Book({ book, Button }: TBookProps): JSX.Element {
     </StyledBookContainer>
   );
 }
+
+export default memo(Book);
