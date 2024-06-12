@@ -74,7 +74,7 @@ function SearchBarResults({
   filteredBooks: TBook[];
   isStale: boolean;
   loading: boolean;
-  error: ApolloError;
+  error: ApolloError | undefined;
 }): JSX.Element {
   return (
     <Suspense fallback={<Typography>Searching...</Typography>}>
