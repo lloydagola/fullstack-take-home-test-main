@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-const StyledLoadingScreen = styled(Box)(({ theme }) => ({
+const StyledLoadingScreen = styled(Box)(() => ({
   display: "flex",
   height: "100vh",
   justifyContent: "center",

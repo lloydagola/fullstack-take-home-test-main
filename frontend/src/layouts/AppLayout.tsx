@@ -74,7 +74,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
                   width={24}
                   height={24}
                   borderRadius="50%"
-                  sx={{ backgroundColor: "#f00" }}
+                  sx={{ backgroundColor: "#f76434" }}
                   textAlign="center"
                   color="#fff"
                 >

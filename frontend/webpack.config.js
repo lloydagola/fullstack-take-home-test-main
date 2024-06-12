@@ -33,6 +33,7 @@ module.exports = {
       utils: path.resolve(__dirname, "src/utils/"),
       queries: path.resolve(__dirname, "src/queries/"),
       _mocks_: path.resolve(__dirname, "src/_mocks_/"),
+      theme: path.resolve(__dirname, "src/theme/"),
       errorBoundaries: path.resolve(__dirname, "src/errorBoundaries/"),
     },
   },
