@@ -11,7 +11,7 @@ export default function AppContextProvider({
 }) {
   const [readingList, setReadingList] = useState<TBook[]>([]);
 
-  const addToReadingList = useCallback((Book: TBook): void => {
+  const addToReadingList = (Book: TBook): void => {
     const bookIsInList = readingList.find(
       (currentBook) => currentBook.title === Book.title
     );
@@ -20,15 +20,15 @@ export default function AppContextProvider({
     setReadingList((currentState): TBook[] => {
       return [...currentState, Book];
     });
-  }, []);
+  };
 
-  const removeFromReadingList = useCallback((Book: TBook): void => {
+  const removeFromReadingList = (Book: TBook): void => {
     const newReadingList = readingList.filter((currentBook: TBook) => {
       return currentBook.title !== Book.title;
     });
 
     setReadingList(newReadingList);
-  }, []);
+  };
 
   return (
     <AppContext.Provider
