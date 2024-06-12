@@ -112,7 +112,7 @@ function SearchBarResults({
                 display="flex"
                 flexDirection="row"
                 alignItems="center"
-                sx={{ opacity: isStale || loading ? "0.5" : 1 }}
+                sx={isStale || loading ? { opacity: 0.5 } : { opacity: 1 }}
               >
                 <img
                   loading="lazy"
