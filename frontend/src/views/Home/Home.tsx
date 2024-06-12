@@ -56,7 +56,6 @@ export default function Books(): JSX.Element {
               );
             })}
         </Grid>
-        <HeroSection />
       </Grid>
     </BookListErrorBoundary>
   );
