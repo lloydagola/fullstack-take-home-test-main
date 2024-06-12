@@ -48,10 +48,11 @@ const StyledRecommendedBook = styled(Box)(() => ({
   },
 }));
 
-function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
+function FeaturedBook(): JSX.Element {
   const value = useContext(AppContext);
+  const featuredBook = value?.books?.[0];
   const inReadingList = value?.readingList?.some(
-    (_book: TBook) => _book.title === featuredBook?.title
+    (book: TBook) => book.title === featuredBook?.title
   );
   return (
     <Grid
@@ -111,14 +112,18 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
             <StyledButton
               variant="contained"
               color="error"
-              onClick={() => value?.removeFromReadingList(featuredBook)}
+              onClick={() =>
+                featuredBook && value?.removeFromReadingList(featuredBook)
+              }
             >
               Remove From List
             </StyledButton>
           ) : (
             <StyledButton
               variant="contained"
-              onClick={() => value?.addToReadingList(featuredBook)}
+              onClick={() =>
+                featuredBook && value?.addToReadingList(featuredBook)
+              }
             >
               Add to List
             </StyledButton>
@@ -128,14 +133,10 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
     </Grid>
   );
 }
-function RecommendedBook({
-  featuredBook,
-}: {
-  featuredBook: TBook;
-}): JSX.Element {
+function RecommendedBook({ book }: { book: TBook }): JSX.Element {
   const value = useContext(AppContext);
   const inReadingList = value?.readingList?.some(
-    (_book: TBook) => _book.title === featuredBook?.title
+    (book: TBook) => book.title === book?.title
   );
   return (
     <StyledRecommendedBook
@@ -145,7 +146,7 @@ function RecommendedBook({
       sx={{}}
       boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
     >
-      {!featuredBook ? (
+      {!book ? (
         <Typography>Loading...</Typography>
       ) : (
         <>
@@ -165,29 +166,29 @@ function RecommendedBook({
             sx={{ padding: { xs: "12px", lg: "24px" } }}
           >
             <Typography fontSize="1.6rem" fontWeight={600}>
-              {featuredBook?.title}
+              {book?.title}
             </Typography>
             <Typography fontSize="1.2rem" fontWeight={600}>
-              {featuredBook?.author}
+              {book?.author}
             </Typography>
             <Typography fontSize="1.2rem" fontWeight={600}>
               Reading Level:
               <Box component="span" fontWeight={600}>
-                {featuredBook?.readingLevel}
+                {book?.readingLevel}
               </Box>
             </Typography>
             {inReadingList ? (
               <StyledButton
                 variant="contained"
                 color="error"
-                onClick={() => value?.removeFromReadingList(featuredBook)}
+                onClick={() => value?.removeFromReadingList(book)}
               >
                 Remove From List
               </StyledButton>
             ) : (
               <StyledButton
                 variant="contained"
-                onClick={() => value?.addToReadingList(featuredBook)}
+                onClick={() => value?.addToReadingList(book)}
               >
                 Add to List
               </StyledButton>
@@ -199,11 +200,31 @@ function RecommendedBook({
             width="100%"
             height="100%"
             style={{ objectFit: "cover" }}
-            src={featuredBook.coverPhotoURL}
+            src={book.coverPhotoURL}
           />
         </>
       )}
     </StyledRecommendedBook>
+  );
+}
+
+function RecommendedBooks(): JSX.Element {
+  const value = useContext(AppContext);
+
+  return (
+    <StyledRecommendedBooks
+      item
+      xs={12}
+      xl={6}
+      display="grid"
+      gap={1}
+      p="16px"
+      justifyContent="center"
+    >
+      {value?.books?.slice(1, 5).map((book: TBook, index: number) => (
+        <RecommendedBook book={book} key={index} />
+      ))}
+    </StyledRecommendedBooks>
   );
 }
 const StyledRecommendedBooks = styled(Grid)(({ theme }) => ({
@@ -213,25 +234,10 @@ const StyledRecommendedBooks = styled(Grid)(({ theme }) => ({
   },
 }));
 export default function HeroSection(): JSX.Element {
-  const value = useContext(AppContext);
-  const featuredBook = value?.books?.[0];
   return (
     <>
-      {featuredBook && <FeaturedBook featuredBook={featuredBook} />}
-
-      <StyledRecommendedBooks
-        item
-        xs={12}
-        xl={6}
-        display="grid"
-        gap={1}
-        p="16px"
-        justifyContent="center"
-      >
-        {value?.books?.slice(1, 5).map((featuredBook: TBook, index: number) => (
-          <RecommendedBook featuredBook={featuredBook} key={index} />
-        ))}
-      </StyledRecommendedBooks>
+      <FeaturedBook />
+      <RecommendedBooks />
     </>
   );
 }
