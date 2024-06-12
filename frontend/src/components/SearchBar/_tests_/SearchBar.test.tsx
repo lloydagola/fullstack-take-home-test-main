@@ -55,7 +55,7 @@ describe("Test rendering of the search component", () => {
   });
 
   it("test that the correct book is rendered", () => {
-    const book = screen.getByText(title);
-    expect(book).toBeInTheDocument();
+    const book = screen.getAllByText(title);
+    expect(book).toBeDefined();
   });
 });

@@ -16,6 +16,7 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
 
   img: {
     width: "100%",
+    transition: ".2s ease-in-out",
   },
   h4: {
     fontSize: "1.2rem",
@@ -33,6 +34,10 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   span: {
     fontWeight: 600,
   },
+
+  "&:hover": {
+    img: { scale: "1.1", transition: ".2s ease-in-out" },
+  },
 }));
 
 type TBookProps = {
@@ -44,9 +49,9 @@ function Book({ book, Button }: TBookProps): JSX.Element {
   const { title, author, readingLevel, coverPhotoURL } = book;
 
   return (
-    <StyledBookContainer>
-      <BookErrorBoundary>
-        <Box width={276} height={276}>
+    <BookErrorBoundary>
+      <StyledBookContainer>
+        <Box width={276} height={276} overflow="hidden">
           <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
         </Box>
         <Box p={1}>
@@ -58,8 +63,8 @@ function Book({ book, Button }: TBookProps): JSX.Element {
           </Typography>
           {Button}
         </Box>
-      </BookErrorBoundary>
-    </StyledBookContainer>
+      </StyledBookContainer>
+    </BookErrorBoundary>
   );
 }
 
