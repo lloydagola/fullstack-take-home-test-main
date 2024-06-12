@@ -4,6 +4,8 @@ import Book from "components/Book/Book";
 import { AppContext } from "contexts/AppContextProvider";
 import { TBook } from "types/types";
 import Button from "@mui/material/Button";
+import BookErrorBoundary from "errorBoundaries/BookError";
+import BookListErrorBoundary from "errorBoundaries/BookListError";
 
 export default function Books(): JSX.Element {
   const value = useContext(AppContext);
@@ -23,28 +25,30 @@ export default function Books(): JSX.Element {
         );
 
         return (
-          <Book
-            book={book}
-            key={index}
-            Button={
-              inReadingList ? (
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => value.removeFromReadingList(book)}
-                >
-                  Remove From List
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  onClick={() => value.addToReadingList(book)}
-                >
-                  Add to List
-                </Button>
-              )
-            }
-          />
+          <BookListErrorBoundary>
+            <Book
+              book={book}
+              key={index}
+              Button={
+                inReadingList ? (
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => value.removeFromReadingList(book)}
+                  >
+                    Remove From List
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={() => value.addToReadingList(book)}
+                  >
+                    Add to List
+                  </Button>
+                )
+              }
+            />
+          </BookListErrorBoundary>
         );
       })}
     </Grid>

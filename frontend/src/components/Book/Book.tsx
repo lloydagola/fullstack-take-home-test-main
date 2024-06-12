@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { TBook } from "types/types";
+import BookErrorBoundary from "errorBoundaries/BookError";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "12px",
@@ -44,18 +45,20 @@ function Book({ book, Button }: TBookProps): JSX.Element {
 
   return (
     <StyledBookContainer>
-      <Box width={276} height={276}>
-        <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
-      </Box>
-      <Box p={1}>
-        <Typography variant="h4">{title}</Typography>
-        <Typography>{author}</Typography>
-        <Typography>
-          <span>Reading Level:</span>
-          {readingLevel}
-        </Typography>
-        {Button}
-      </Box>
+      <BookErrorBoundary>
+        <Box width={276} height={276}>
+          <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
+        </Box>
+        <Box p={1}>
+          <Typography variant="h4">{title}</Typography>
+          <Typography>{author}</Typography>
+          <Typography>
+            <span>Reading Level:</span>
+            {readingLevel}
+          </Typography>
+          {Button}
+        </Box>
+      </BookErrorBoundary>
     </StyledBookContainer>
   );
 }
