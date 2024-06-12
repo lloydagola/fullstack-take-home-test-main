@@ -77,7 +77,7 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
           height="100%"
           width="100%"
           sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          borderRadius={2}
+          borderRadius={4}
         />
         <img
           loading="lazy"
