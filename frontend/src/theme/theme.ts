@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
+
 // Create a custom theme
 const theme = createTheme({
   palette: {
@@ -16,6 +17,9 @@ const theme = createTheme({
       default: "#fff",
     },
   },
+  typography:{
+    fontFamily: 'Mulish, sans-serif',
+  }
 });
 
 export default theme;
