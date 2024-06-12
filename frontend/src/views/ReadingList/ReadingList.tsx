@@ -6,6 +6,7 @@ import { AppContext } from "contexts/AppContextProvider";
 import { TBook } from "types/types";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Box";
+import { Link } from "react-router-dom";
 
 export default function ReadingList(): JSX.Element {
   const value = useContext(AppContext);
@@ -36,12 +37,17 @@ export default function ReadingList(): JSX.Element {
       ) : (
         <Box
           display="flex"
+          flexDirection="column"
           alignItems="center"
           justifyContent="center"
           width="100%"
           height="100vh"
         >
           <Typography>You have no books in your reading list...</Typography>
+          <Typography>
+            <Link to="/">Click here </Link>
+            to go to the home page and add some books to your list
+          </Typography>
         </Box>
       )}
     </Grid>
