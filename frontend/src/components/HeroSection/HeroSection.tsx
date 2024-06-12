@@ -19,66 +19,99 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
     fontSize: "2.4rem",
   },
 }));
+
 const StyledAuthor = styled(Typography)(({ theme }) => ({
   fontSize: "1rem",
   [theme.breakpoints.up("lg")]: {
     fontSize: "1.6rem",
   },
 }));
+
 const StyledReadingLevel = styled(Typography)(({ theme }) => ({
   fontSize: "0.8rem",
   [theme.breakpoints.up("lg")]: {
     fontSize: "1.2rem",
   },
 }));
+
 function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
   const value = useContext(AppContext);
   const inReadingList = value?.readingList?.some(
     (_book: TBook) => _book.title === featuredBook?.title
   );
   return (
-    <>
+    <Grid
+      item
+      xl={6}
+      m="16px 0"
+      borderRadius={4}
+      boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
+    >
       <Box
-        position="absolute"
-        zIndex={2}
-        height="100%"
-        width="100%"
-        sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        borderRadius={2}
-      />
-      <Box
-        color="white"
-        position="absolute"
-        zIndex={5}
-        bottom={0}
-        sx={{ padding: { xs: "12px", lg: "24px" } }}
+        position="relative"
+        sx={{
+          img: { transition: ".2s ease-in-out" },
+          overflow: "hidden",
+          "&:hover": {
+            img: { scale: "1.2", transition: ".2s ease-in-out" },
+          },
+        }}
       >
-        <StyledTitle>{featuredBook?.title}</StyledTitle>
-        <StyledAuthor>{featuredBook?.author}</StyledAuthor>
-        <StyledReadingLevel>
-          Reading Level:
-          <Box component="span" fontWeight={600}>
-            {featuredBook?.readingLevel}
-          </Box>
-        </StyledReadingLevel>
-        {inReadingList ? (
-          <StyledButton
-            variant="contained"
-            color="error"
-            onClick={() => value?.removeFromReadingList(featuredBook)}
-          >
-            Remove From List
-          </StyledButton>
-        ) : (
-          <StyledButton
-            variant="contained"
-            onClick={() => value?.addToReadingList(featuredBook)}
-          >
-            Add to List
-          </StyledButton>
-        )}
+        <Box
+          position="absolute"
+          zIndex={2}
+          height="100%"
+          width="100%"
+          sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          borderRadius={2}
+        />
+        <img
+          loading="lazy"
+          alt="featured book"
+          width="100%"
+          style={{ objectFit: "cover" }}
+          src={featuredBook?.coverPhotoURL}
+        />
+        <Box
+          color="white"
+          position="absolute"
+          zIndex={5}
+          bottom={0}
+          sx={{
+            padding: { xs: "12px", lg: "24px" },
+            img: { transition: ".2s ease-in-out" },
+            "&:hover": {
+              img: { scale: "1.2", transition: ".2s ease-in-out" },
+            },
+          }}
+        >
+          <StyledTitle>{featuredBook?.title}</StyledTitle>
+          <StyledAuthor>{featuredBook?.author}</StyledAuthor>
+          <StyledReadingLevel>
+            Reading Level:
+            <Box component="span" fontWeight={600}>
+              {featuredBook?.readingLevel}
+            </Box>
+          </StyledReadingLevel>
+          {inReadingList ? (
+            <StyledButton
+              variant="contained"
+              color="error"
+              onClick={() => value?.removeFromReadingList(featuredBook)}
+            >
+              Remove From List
+            </StyledButton>
+          ) : (
+            <StyledButton
+              variant="contained"
+              onClick={() => value?.addToReadingList(featuredBook)}
+            >
+              Add to List
+            </StyledButton>
+          )}
+        </Box>
       </Box>
-    </>
+    </Grid>
   );
 }
 function RecommendedBook({
@@ -94,6 +127,13 @@ function RecommendedBook({
     <Box
       position="relative"
       borderRadius={4}
+      overflow="hidden"
+      sx={{
+        img: { transition: ".2s ease-in-out" },
+        "&:hover": {
+          img: { scale: "1.2", transition: ".2s ease-in-out" },
+        },
+      }}
       boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
     >
       {!featuredBook ? (
@@ -168,24 +208,8 @@ export default function HeroSection(): JSX.Element {
   const featuredBook = value?.books?.[0];
   return (
     <>
-      <Grid
-        item
-        xl={6}
-        m="16px 0"
-        borderRadius={4}
-        boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
-      >
-        <Box position="relative">
-          {featuredBook && <FeaturedBook featuredBook={featuredBook} />}
-          <img
-            loading="lazy"
-            alt="featured book"
-            width="100%"
-            style={{ objectFit: "cover" }}
-            src={featuredBook?.coverPhotoURL}
-          />
-        </Box>
-      </Grid>
+      {featuredBook && <FeaturedBook featuredBook={featuredBook} />}
+
       <StyledRecommendedBooks
         item
         xs={12}
