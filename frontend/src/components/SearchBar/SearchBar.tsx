@@ -1,23 +1,19 @@
 import React, {
   ChangeEvent,
-  Suspense,
-  useContext,
+  memo,
   useDeferredValue,
   useRef,
   useState,
 } from "react";
-import { ApolloError, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import Box from "@mui/material/Box";
-import { AppContext } from "contexts/AppContextProvider";
-import { TBook, TContext } from "types/types";
+import { TBook } from "types/types";
 import useDebounce from "hooks/useDebounce";
 import { SEARCH_BOOKS_QUERY } from "queries/books";
-import Button from "@mui/material/Button";
-import { Typography } from "@mui/material";
-import { useClickOutside } from "../../hooks/useClickOutside";
+import { useClickOutside } from "hooks/useClickOutside";
+import SearchBarResults from "components/SearchBarResults/SearchBarResults";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,112 +55,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function SearchBarResults({
-  appData,
-  isOpen,
-  searchTerm,
-  filteredBooks,
-  isStale,
-  loading,
-  error,
-}: {
-  appData: TContext | null;
-  isOpen: boolean;
-  searchTerm: string;
-  filteredBooks: TBook[];
-  isStale: boolean;
-  loading: boolean;
-  error: ApolloError | undefined;
-}): JSX.Element {
-  return (
-    <Suspense fallback={<Typography>Searching...</Typography>}>
-      <Box
-        position="absolute"
-        flexDirection="column"
-        aria-label="search-results"
-        display={`${
-          isOpen && searchTerm.trim() && filteredBooks.length > 0
-            ? "flex"
-            : "none"
-        }`}
-        p={1}
-        overflow="scroll"
-        height="600px"
-        width="100%"
-        boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
-        sx={{ backgroundColor: "#fff" }}
-      >
-        {error ? (
-          <Box>
-            <Typography>an error ocurred, {String(error)}</Typography>
-          </Box>
-        ) : (
-          searchTerm.trim() &&
-          filteredBooks.map((book: TBook, index: number): JSX.Element => {
-            const inReadingList = appData?.readingList?.some(
-              (_book: TBook) => _book.title === book.title
-            );
-            return (
-              <Box
-                p={1}
-                borderBottom="1px solid #999"
-                key={index}
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                sx={isStale || loading ? { opacity: 0.5 } : { opacity: 1 }}
-              >
-                <img
-                  loading="lazy"
-                  src={book.coverPhotoURL}
-                  width="60px"
-                  style={{ margin: "12px" }}
-                />
-                <Box display="flex" flex="1" flexDirection="column">
-                  <Typography>{book.title}</Typography>
-                  {inReadingList ? (
-                    <Button
-                      color="error"
-                      sx={{
-                        margin: "4px 0",
-                        borderRadius: "16px",
-                        fontWeight: 600,
-                        width: "180px",
-                      }}
-                      variant="contained"
-                      onClick={() => appData?.removeFromReadingList(book)}
-                    >
-                      Remove From List
-                    </Button>
-                  ) : (
-                    <Button
-                      sx={{
-                        margin: "4px 0",
-                        borderRadius: "16px",
-                        fontWeight: 600,
-                        width: "130px",
-                      }}
-                      variant="contained"
-                      onClick={() => appData?.addToReadingList(book)}
-                    >
-                      Add to List
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-            );
-          })
-        )}
-      </Box>
-    </Suspense>
-  );
-}
+const MemoizedSearchBarResults = memo(SearchBarResults);
 
 export default function SearchBar(): JSX.Element {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState<TBook[]>([]);
-  const appData = useContext(AppContext);
   const deferredSearchTerm = useDeferredValue(searchTerm);
   const isStale = searchTerm !== deferredSearchTerm;
 
@@ -215,8 +111,8 @@ export default function SearchBar(): JSX.Element {
         onChange={handleSearch}
         onClick={() => setIsOpen(true)}
       />
-      <SearchBarResults
-        appData={appData}
+      <MemoizedSearchBarResults
+        data={data?.books}
         isOpen={isOpen}
         searchTerm={searchTerm}
         filteredBooks={filteredBooks}
