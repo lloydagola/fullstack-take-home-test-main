@@ -59,7 +59,7 @@ function FeaturedBook(): JSX.Element {
   const value = useContext(AppContext);
   const featuredBook = value?.books?.[0];
   const inReadingList = value?.readingList?.some(
-    (book: TBook) => book.title === featuredBook?.title
+    (_book: TBook) => _book.title === featuredBook?.title
   );
   return (
     <Grid
@@ -69,81 +69,100 @@ function FeaturedBook(): JSX.Element {
       borderRadius={4}
       boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
     >
-      <StyledFeaturedBook
-        position="relative"
-        sx={{
-          img: { transition: ".2s ease-in-out" },
-          overflow: "hidden",
-          "&:hover": {
-            img: { scale: "1.1", transition: ".2s ease-in-out" },
-          },
-        }}
-      >
-        <Box
-          position="absolute"
-          zIndex={2}
-          height="100%"
-          width="100%"
-          sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-          borderRadius={4}
-        />
-        <img
-          loading="lazy"
-          alt="featured book"
-          width="100%"
-          style={{ objectFit: "cover" }}
-          src={featuredBook?.coverPhotoURL}
-        />
-        <Box
-          color="white"
-          position="absolute"
-          zIndex={5}
-          bottom={0}
+      {!featuredBook ? (
+        <Typography>Loading...</Typography>
+      ) : (
+        <StyledFeaturedBook
+          position="relative"
           sx={{
-            padding: { xs: "12px", lg: "24px" },
             img: { transition: ".2s ease-in-out" },
+            overflow: "hidden",
             "&:hover": {
               img: { scale: "1.1", transition: ".2s ease-in-out" },
             },
           }}
         >
-          <StyledTitle>{featuredBook?.title}</StyledTitle>
-          <StyledAuthor>{featuredBook?.author}</StyledAuthor>
-          <StyledReadingLevel>
-            Reading Level:
-            <Box component="span" fontWeight={600}>
-              {featuredBook?.readingLevel}
-            </Box>
-          </StyledReadingLevel>
-          {inReadingList ? (
-            <StyledButton
-              variant="contained"
-              color="error"
-              onClick={() =>
-                featuredBook && value?.removeFromReadingList(featuredBook)
-              }
-            >
-              Remove From List
-            </StyledButton>
-          ) : (
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                featuredBook && value?.addToReadingList(featuredBook)
-              }
-            >
-              Add to List
-            </StyledButton>
-          )}
-        </Box>
-      </StyledFeaturedBook>
+          <Box
+            position="absolute"
+            zIndex={2}
+            height="100%"
+            width="100%"
+            sx={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+            borderRadius={4}
+          />
+          <img
+            loading="lazy"
+            alt="featured book"
+            width="100%"
+            style={{ objectFit: "cover" }}
+            src={featuredBook?.coverPhotoURL}
+          />
+          <Box
+            color="white"
+            position="absolute"
+            zIndex={5}
+            bottom={0}
+            sx={{
+              padding: { xs: "12px", lg: "24px" },
+              img: { transition: ".2s ease-in-out" },
+              "&:hover": {
+                img: { scale: "1.1", transition: ".2s ease-in-out" },
+              },
+            }}
+          >
+            <StyledTitle>{featuredBook?.title}</StyledTitle>
+            <StyledAuthor>{featuredBook?.author}</StyledAuthor>
+            <StyledReadingLevel>
+              Reading Level:
+              <Box component="span" fontWeight={600}>
+                {featuredBook?.readingLevel}
+              </Box>
+            </StyledReadingLevel>
+            {inReadingList ? (
+              <StyledButton
+                variant="contained"
+                color="error"
+                onClick={() => value?.removeFromReadingList(featuredBook)}
+              >
+                Remove From List
+              </StyledButton>
+            ) : (
+              <StyledButton
+                variant="contained"
+                onClick={() => value?.addToReadingList(featuredBook)}
+              >
+                Add to List
+              </StyledButton>
+            )}
+          </Box>
+        </StyledFeaturedBook>
+      )}
     </Grid>
+  );
+}
+function RecommendedBooks(): JSX.Element {
+  const value = useContext(AppContext);
+
+  return (
+    <StyledRecommendedBooks
+      item
+      xs={12}
+      xl={6}
+      display="grid"
+      gap={1}
+      p="16px"
+      justifyContent="center"
+    >
+      {value?.books?.slice(1, 5).map((book: TBook, index: number) => (
+        <RecommendedBook book={book} key={index} />
+      ))}
+    </StyledRecommendedBooks>
   );
 }
 function RecommendedBook({ book }: { book: TBook }): JSX.Element {
   const value = useContext(AppContext);
   const inReadingList = value?.readingList?.some(
-    (book: TBook) => book.title === book?.title
+    (_book: TBook) => _book.title === book?.title
   );
   return (
     <StyledRecommendedBook
@@ -212,26 +231,6 @@ function RecommendedBook({ book }: { book: TBook }): JSX.Element {
         </>
       )}
     </StyledRecommendedBook>
-  );
-}
-
-function RecommendedBooks(): JSX.Element {
-  const value = useContext(AppContext);
-
-  return (
-    <StyledRecommendedBooks
-      item
-      xs={12}
-      xl={6}
-      display="grid"
-      gap={1}
-      p="16px"
-      justifyContent="center"
-    >
-      {value?.books?.slice(1, 5).map((book: TBook, index: number) => (
-        <RecommendedBook book={book} key={index} />
-      ))}
-    </StyledRecommendedBooks>
   );
 }
 export default function HeroSection(): JSX.Element {
