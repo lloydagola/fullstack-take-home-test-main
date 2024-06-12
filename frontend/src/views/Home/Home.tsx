@@ -45,6 +45,7 @@ export default function Books(): JSX.Element {
                     ) : (
                       <Button
                         variant="contained"
+                        color="primary"
                         onClick={() => value.addToReadingList(book)}
                       >
                         Add to List
