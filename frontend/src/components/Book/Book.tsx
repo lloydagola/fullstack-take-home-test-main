@@ -36,7 +36,7 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   },
 
   "&:hover": {
-    img: { scale: "1.2", transition: ".2s ease-in-out" },
+    img: { scale: "1.1", transition: ".2s ease-in-out" },
   },
 }));
 

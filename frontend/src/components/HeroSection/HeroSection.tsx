@@ -34,6 +34,20 @@ const StyledReadingLevel = styled(Typography)(({ theme }) => ({
   },
 }));
 
+const StyledFeaturedBook = styled(Box)(() => ({
+  img: { transition: ".2s ease-in-out" },
+  "&:hover": {
+    img: { scale: "1.1", transition: ".2s ease-in-out" },
+  },
+}));
+
+const StyledRecommendedBook = styled(Box)(() => ({
+  img: { transition: ".2s ease-in-out" },
+  "&:hover": {
+    img: { scale: "1.1", transition: ".2s ease-in-out" },
+  },
+}));
+
 function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
   const value = useContext(AppContext);
   const inReadingList = value?.readingList?.some(
@@ -47,13 +61,13 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
       borderRadius={4}
       boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
     >
-      <Box
+      <StyledFeaturedBook
         position="relative"
         sx={{
           img: { transition: ".2s ease-in-out" },
           overflow: "hidden",
           "&:hover": {
-            img: { scale: "1.2", transition: ".2s ease-in-out" },
+            img: { scale: "1.1", transition: ".2s ease-in-out" },
           },
         }}
       >
@@ -81,7 +95,7 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
             padding: { xs: "12px", lg: "24px" },
             img: { transition: ".2s ease-in-out" },
             "&:hover": {
-              img: { scale: "1.2", transition: ".2s ease-in-out" },
+              img: { scale: "1.1", transition: ".2s ease-in-out" },
             },
           }}
         >
@@ -110,7 +124,7 @@ function FeaturedBook({ featuredBook }: { featuredBook: TBook }): JSX.Element {
             </StyledButton>
           )}
         </Box>
-      </Box>
+      </StyledFeaturedBook>
     </Grid>
   );
 }
@@ -124,16 +138,11 @@ function RecommendedBook({
     (_book: TBook) => _book.title === featuredBook?.title
   );
   return (
-    <Box
+    <StyledRecommendedBook
       position="relative"
       borderRadius={4}
       overflow="hidden"
-      sx={{
-        img: { transition: ".2s ease-in-out" },
-        "&:hover": {
-          img: { scale: "1.2", transition: ".2s ease-in-out" },
-        },
-      }}
+      sx={{}}
       boxShadow="0px 2px 2px -1px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)"
     >
       {!featuredBook ? (
@@ -194,7 +203,7 @@ function RecommendedBook({
           />
         </>
       )}
-    </Box>
+    </StyledRecommendedBook>
   );
 }
 const StyledRecommendedBooks = styled(Grid)(({ theme }) => ({
