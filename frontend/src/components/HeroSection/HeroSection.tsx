@@ -48,6 +48,13 @@ const StyledRecommendedBook = styled(Box)(() => ({
   },
 }));
 
+const StyledRecommendedBooks = styled(Grid)(({ theme }) => ({
+  gridTemplateColumns: "1fr",
+  "@media (min-width:480px)": {
+    gridTemplateColumns: "repeat(2, minmax(300px, 1fr))",
+  },
+}));
+
 function FeaturedBook(): JSX.Element {
   const value = useContext(AppContext);
   const featuredBook = value?.books?.[0];
@@ -227,12 +234,6 @@ function RecommendedBooks(): JSX.Element {
     </StyledRecommendedBooks>
   );
 }
-const StyledRecommendedBooks = styled(Grid)(({ theme }) => ({
-  gridTemplateColumns: "1fr",
-  "@media (min-width:480px)": {
-    gridTemplateColumns: "repeat(2, minmax(300px, 1fr))",
-  },
-}));
 export default function HeroSection(): JSX.Element {
   return (
     <>
