@@ -1,8 +1,7 @@
 import React, { ReactNode, memo } from "react";
-import styled from "@emotion/styled";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { TBook } from "types/types";
 import BookErrorBoundary from "errorBoundaries/BookError/BookError";
 
@@ -29,6 +28,7 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   button: {
     borderRadius: "16px",
     fontWeight: 600,
+    color: theme.palette.background.default,
   },
   span: {
     fontWeight: 600,
