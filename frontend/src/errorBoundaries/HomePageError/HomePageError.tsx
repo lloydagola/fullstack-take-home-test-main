@@ -31,10 +31,10 @@ export default class HomepageErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
+      // render any custom fallback UI
       return (
         <Typography variant="h2">
-          Something went wrong when attempting to fetch the Books.
+          Something went wrong when attempting to fetch the Home page.
         </Typography>
       );
     }

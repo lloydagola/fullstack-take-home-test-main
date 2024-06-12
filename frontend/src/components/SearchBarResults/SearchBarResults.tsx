@@ -5,7 +5,7 @@ import { TBook } from "types/types";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 import { AppContext } from "contexts/AppContextProvider";
-import BookErrorBoundary from "errorBoundaries/BookError";
+import BookErrorBoundary from "errorBoundaries/BookError/BookError";
 
 export default function SearchBarResults({
   data,

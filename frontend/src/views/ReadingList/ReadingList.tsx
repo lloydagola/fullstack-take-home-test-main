@@ -7,7 +7,7 @@ import Typography from "@mui/material/Box";
 import Book from "components/Book/Book";
 import { AppContext } from "contexts/AppContextProvider";
 import { TBook } from "types/types";
-import BookListErrorBoundary from "errorBoundaries/BookListError";
+import BookListErrorBoundary from "errorBoundaries/BookListError/BookListError";
 
 export default function ReadingList(): JSX.Element {
   const value = useContext(AppContext);

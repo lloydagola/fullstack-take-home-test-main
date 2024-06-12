@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { TBook } from "types/types";
-import BookErrorBoundary from "errorBoundaries/BookError";
+import BookErrorBoundary from "errorBoundaries/BookError/BookError";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "12px",

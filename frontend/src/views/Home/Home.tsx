@@ -4,8 +4,7 @@ import Book from "components/Book/Book";
 import { AppContext } from "contexts/AppContextProvider";
 import { TBook } from "types/types";
 import Button from "@mui/material/Button";
-import BookErrorBoundary from "errorBoundaries/BookError";
-import BookListErrorBoundary from "errorBoundaries/BookListError";
+import BookListErrorBoundary from "errorBoundaries/BookListError/BookListError";
 
 export default function Books(): JSX.Element {
   const value = useContext(AppContext);
@@ -19,13 +18,13 @@ export default function Books(): JSX.Element {
       justifyContent="center"
       gridTemplateColumns="repeat(auto-fill, 300px)"
     >
-      {value?.books?.map((book: TBook, index: number): JSX.Element => {
-        const inReadingList = value?.readingList?.some(
-          (_book: TBook) => _book.title === book.title
-        );
+      <BookListErrorBoundary>
+        {value?.books?.map((book: TBook, index: number): JSX.Element => {
+          const inReadingList = value?.readingList?.some(
+            (_book: TBook) => _book.title === book.title
+          );
 
-        return (
-          <BookListErrorBoundary>
+          return (
             <Book
               book={book}
               key={index}
@@ -48,9 +47,9 @@ export default function Books(): JSX.Element {
                 )
               }
             />
-          </BookListErrorBoundary>
-        );
-      })}
+          );
+        })}
+      </BookListErrorBoundary>
     </Grid>
   );
 }
