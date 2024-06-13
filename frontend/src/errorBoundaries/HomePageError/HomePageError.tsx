@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import React from "react";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -33,9 +34,18 @@ export default class HomepageErrorBoundary extends React.Component<
     if (this.state.hasError) {
       // render any custom fallback UI
       return (
-        <Typography variant="h2">
-          Something went wrong when attempting to fetch the Home page.
-        </Typography>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          margin="auto"
+          width={{ lg: `calc(100vw - 240px)` }}
+        >
+          <Typography fontSize="2rem">
+            Something went wrong when attempting to fetch the Home page.
+          </Typography>
+        </Box>
       );
     }
 
