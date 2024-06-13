@@ -1,9 +1,9 @@
-import React, { ReactNode } from "react";
-import styled from "@emotion/styled";
+import React, { ReactNode, memo } from "react";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { TBook } from "types/types";
+import BookErrorBoundary from "errorBoundaries/BookError/BookError";
 
 const StyledBookContainer = styled(Box)(({ theme }) => ({
   padding: "12px",
@@ -16,6 +16,7 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
 
   img: {
     width: "100%",
+    transition: ".2s ease-in-out",
   },
   h4: {
     fontSize: "1.2rem",
@@ -28,9 +29,14 @@ const StyledBookContainer = styled(Box)(({ theme }) => ({
   button: {
     borderRadius: "16px",
     fontWeight: 600,
+    color: theme.palette.background.default,
   },
   span: {
     fontWeight: 600,
+  },
+
+  "&:hover": {
+    img: { scale: "1.1", transition: ".2s ease-in-out" },
   },
 }));
 
@@ -39,23 +45,27 @@ type TBookProps = {
   Button: ReactNode;
 };
 
-export default function Book({ book, Button }: TBookProps): JSX.Element {
+function Book({ book, Button }: TBookProps): JSX.Element {
   const { title, author, readingLevel, coverPhotoURL } = book;
 
   return (
-    <StyledBookContainer>
-      <Box width={276} height={276}>
-        <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
-      </Box>
-      <Box p={1}>
-        <Typography variant="h4">{title}</Typography>
-        <Typography>{author}</Typography>
-        <Typography>
-          <span>Reading Level:</span>
-          {readingLevel}
-        </Typography>
-        {Button}
-      </Box>
-    </StyledBookContainer>
+    <BookErrorBoundary>
+      <StyledBookContainer>
+        <Box width={276} height={276} overflow="hidden">
+          <img loading="lazy" src={coverPhotoURL} alt="book cover image" />
+        </Box>
+        <Box p={1}>
+          <Typography variant="h4">{title}</Typography>
+          <Typography>{author}</Typography>
+          <Typography>
+            <span>Reading Level:</span>
+            {readingLevel}
+          </Typography>
+          {Button}
+        </Box>
+      </StyledBookContainer>
+    </BookErrorBoundary>
   );
 }
+
+export default memo(Book);

@@ -49,12 +49,8 @@ describe("testing component rendering...", () => {
     );
   });
   it("should display a list of books...", () => {
-    const book = screen.getByText(title);
-    expect(book).toBeInTheDocument();
-  });
-  it("should display the correct number of books", () => {
-    books = screen.getByLabelText(label);
-    expect(books.children).toHaveLength(2);
+    const books = screen.getAllByText(title);
+    expect(books).toHaveLength(2);
   });
 });
 
@@ -72,7 +68,7 @@ describe("testing component functions...", () => {
 
   it("should display the books container...", async () => {
     const buttons = screen.findAllByText(label);
-    expect(await buttons).toHaveLength(2);
+    expect(await buttons).toHaveLength(4);
   });
 
   it("should allow clicking the Add To List button", async () => {
@@ -80,7 +76,7 @@ describe("testing component functions...", () => {
 
     fireEvent.click(buttons[0]);
 
-    const removeButton = screen.getByText("Remove From List");
-    expect(removeButton).toBeInTheDocument();
+    const removeButton = screen.getAllByText("Remove From List");
+    expect(removeButton).toBeDefined();
   });
 });

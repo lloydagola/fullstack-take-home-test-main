@@ -6,6 +6,8 @@ import { BOOKS_QUERY } from "queries/books";
 import { TBook } from "types/types";
 import AppContextProvider from "contexts/AppContextProvider";
 import LoadingScreen from "views/LoadingScreen/LoadingScreen";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "theme/theme";
 
 export default function App(): JSX.Element {
   const { data, loading, error } = useQuery(BOOKS_QUERY);
@@ -20,8 +22,10 @@ export default function App(): JSX.Element {
 
   return (
     <React.StrictMode>
-      <AppContextProvider books={data.books}>
-        <RouterProvider router={router} />
+      <AppContextProvider books={BookData}>
+        <ThemeProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </AppContextProvider>
     </React.StrictMode>
   );

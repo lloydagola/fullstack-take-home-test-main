@@ -21,7 +21,7 @@ import { AppContext } from "contexts/AppContextProvider";
 
 const drawerWidth = 240;
 type TAppLayoutProps = {
-  children: JSX.Element[] | JSX.Element;
+  children?: JSX.Element[] | JSX.Element;
 };
 
 export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
@@ -74,7 +74,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
                   width={24}
                   height={24}
                   borderRadius="50%"
-                  sx={{ backgroundColor: "#f00" }}
+                  sx={{ backgroundColor: "#f76434" }}
                   textAlign="center"
                   color="#fff"
                 >
@@ -94,8 +94,8 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { lg: `calc(100% - ${drawerWidth}px)` },
+          ml: { lg: `${drawerWidth}px` },
           backgroundColor: "#fff",
           color: "#222",
         }}
@@ -106,7 +106,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { md: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -119,11 +119,10 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
         aria-label="navigation"
         role="navigation"
       >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Drawer
           data-testid="side-bar"
           variant="temporary"
@@ -135,7 +134,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: "block", sm: "none" },
+            display: { xs: "block", md: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -148,7 +147,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
           data-testid="side-bar"
           variant="permanent"
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", md: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
@@ -164,7 +163,7 @@ export default function AppLayout({ children }: TAppLayoutProps): JSX.Element {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { md: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Toolbar />
